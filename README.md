@@ -1,38 +1,119 @@
-# FamilyCalendar
+# Family Command Centre
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+A family coordination app for managing shift pickups, meal planning, and household tasks. Built to reduce mental load and help the family stay organized.
+
+## Features
+
+### Phase 1: Calendar & Availability
+- Google Calendar integration
+- Traffic light availability view (Green/Amber/Red)
+- Quick shift availability check for SOS requests
+- Generate "available days" list for hospital submission
+
+### Phase 2: Meals & Dinner Coordination
+- "Who's home for dinner?" daily poll
+- AI-powered meal suggestions (Claude)
+- Weekly meal planning
+- Family favourites library
+
+### Phase 3: Tasks & Chores
+- Task categories: Home, Kids, Admin, Projects
+- Recurring tasks support
+- Mental load distribution visualization
+- Task assignment
+
+### Phase 4: Intelligence & Learning
+- Daily digest (6am AEST)
+- Learning agent that improves suggestions over time
+- Feedback mechanism
+
+## Tech Stack
+
+- **Frontend**: Next.js 14 (App Router), Tailwind CSS
+- **Backend**: Supabase (Postgres, Auth, Edge Functions)
+- **AI**: Claude API (Sonnet 4)
+- **Calendar**: Google Calendar API
+- **Notifications**: Resend
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
+- Node.js 18+
+- Supabase account
+- Anthropic API key
+- Google Cloud project with Calendar API enabled
+
+### Setup
+
+1. Clone the repository:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/outtram/FamilyCalendar.git
+cd family-command-centre
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Copy environment variables:
+```bash
+cp .env.example .env.local
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Fill in your environment variables in `.env.local`
 
-## Learn More
+5. Set up the database:
+   - Create a new Supabase project
+   - Run the SQL in `supabase/schema.sql` in the SQL Editor
 
-To learn more about Next.js, take a look at the following resources:
+6. Run the development server:
+```bash
+npm run dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Open [http://localhost:3000](http://localhost:3000)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Project Structure
 
-## Deploy on Vercel
+```
+family-command-centre/
+├── app/                    # Next.js App Router pages
+│   ├── api/               # API routes
+│   ├── calendar/          # Calendar/availability page
+│   ├── meals/             # Meal planning pages
+│   └── tasks/             # Task management page
+├── agents/                # Claude Agent SDK agents
+│   ├── calendar-agent.ts  # Calendar availability logic
+│   ├── meal-agent.ts      # Meal suggestions
+│   ├── task-agent.ts      # Task management
+│   ├── orchestrator.ts    # Agent coordination
+│   └── learning-agent.ts  # Preference learning
+├── components/            # React components
+├── lib/                   # Utilities (Supabase, Claude clients)
+├── types/                 # TypeScript types
+└── supabase/             # Database schema
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Architecture
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Multi-agent design using Claude Agent SDK:
+- **Calendar Agent**: Handles availability checks, conflicts
+- **Meal Agent**: AI meal suggestions, preferences
+- **Task Agent**: CRUD, recurring tasks, load balancing
+- **Orchestrator**: Coordinates cross-agent queries
+- **Learning Agent**: Persists feedback, builds preferences
+
+## Deployment
+
+Deploy to Vercel:
+
+```bash
+npm run build
+vercel deploy
+```
+
+## License
+
+Private - Outtram Family
